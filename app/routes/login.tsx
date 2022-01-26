@@ -1,6 +1,6 @@
 import { ActionFunction, json, Link, useActionData, LoaderFunction, MetaFunction, redirect } from 'remix'
-import { createUserSesstion, getUser, login, register } from '~/utils/session.server'
 import loginStyles from '../styles/login.css'
+import { createUserSesstion, getUser, login, register } from '~/utils/session.server'
 
 export const links = () => [
     {
@@ -15,15 +15,11 @@ export const meta: MetaFunction = () => ({
 })
 
 function validateUsername(username: unknown) {
-    if (typeof username !== 'string' || username.length < 3) {
-        return `Usernames must be at least 3 characters long`
-    }
+    if (typeof username !== 'string' || username.length < 3) return `Usernames must be at least 3 characters long`
 }
 
 function validatePassword(password: unknown) {
-    if (typeof password !== 'string' || password.length < 6) {
-        return `Passwords must be at least 6 characters long`
-    }
+    if (typeof password !== 'string' || password.length < 6) return `Passwords must be at least 6 characters long`
 }
 
 type Fields = {
@@ -58,11 +54,10 @@ export const action: ActionFunction = async ({ request }) => {
         username: validateUsername(username),
         password: validatePassword(password),
     }
-    if (Object.values(fieldErrors).some(Boolean)) {
-        return badRequest({ fieldErrors, fields })
-    }
+    if (Object.values(fieldErrors).some(Boolean)) return badRequest({ fieldErrors, fields })
+
     switch (loginType) {
-        case 'login':
+        case 'login': {
             const user = await login(username, password)
             if (!user)
                 return badRequest({
@@ -70,13 +65,14 @@ export const action: ActionFunction = async ({ request }) => {
                     formError: 'Username or Password incorrect',
                 })
             return createUserSesstion(user.id, redirectTo)
+        }
+
         case 'register': {
             const user = await register(username, password)
             return createUserSesstion(user.id, redirectTo)
         }
 
         default:
-            return
             break
     }
 }

@@ -1,16 +1,14 @@
-import { Link } from '.pnpm/react-router-dom@6.2.1_react-dom@17.0.2+react@17.0.2/node_modules/react-router-dom'
-import { ActionFunction, ErrorBoundaryComponent, json, redirect, useActionData, useCatch } from 'remix'
+import { Link } from 'react-router-dom'
+import { ActionFunction, json, redirect, useActionData, useCatch } from 'remix'
 import { prisma } from '~/utils/prisma.server'
-import { getUserId, requireUserId } from '~/utils/session.server'
+import { requireUserId } from '~/utils/session.server'
 
 export const validateJokeName = (name: string) => {
     if (name.length < 2) return "That joke's name is too short"
-    return
 }
 
 export const validateJokeContent = (content: string) => {
     if (content.length < 10) return 'That joke is too short'
-    return
 }
 
 type Fields = {
@@ -40,7 +38,8 @@ const badRequest = (data: ActionData) => json(data, { status: 400 })
 
 export const action: ActionFunction = async ({ request }) => {
     // zod
-    const fields = Object.fromEntries((await request.formData()).entries()) as Fields
+    const formData = await request.formData()
+    const fields = Object.fromEntries(formData.entries()) as Fields
     const { name, content } = fields
     if (typeof name !== 'string' || typeof content !== 'string')
         return badRequest({
@@ -50,9 +49,8 @@ export const action: ActionFunction = async ({ request }) => {
         name: validateJokeName(name),
         content: validateJokeContent(content),
     }
-    if (Object.values(fieldErrors).some(Boolean)) {
-        return badRequest({ fieldErrors, fields })
-    }
+    if (Object.values(fieldErrors).some(Boolean)) return badRequest({ fieldErrors, fields })
+
     const newJoke = await prisma.joke.create({
         data: { name, content, authorId: await requireUserId(request) },
     })

@@ -35,8 +35,7 @@ export const meta: MetaFunction = () => {
     }
 }
 
-const Document: React.FC<{ title? }> = ({ children, title = "Remix: it's really cool!" }) => {
-    return (
+const Document: React.FC<{ title? }> = ({ children, title = "Remix: it's really cool!" }) => (
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
@@ -51,7 +50,6 @@ const Document: React.FC<{ title? }> = ({ children, title = "Remix: it's really 
             </body>
         </html>
     )
-}
 
 export default function App() {
     return (

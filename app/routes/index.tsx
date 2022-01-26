@@ -5,8 +5,7 @@ export const links = () => [{ rel: 'stylesheet', href: indexStyles }]
 
 export const meta = []
 
-export default () => {
-    return (
+export default () => (
         <div className="container">
             <div className="content">
                 <h1>
@@ -22,4 +21,3 @@ export default () => {
             </div>
         </div>
     )
-}

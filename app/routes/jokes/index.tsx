@@ -12,9 +12,7 @@ export const loader = async () => {
     return randomJoke
 }
 
-export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
-    return <div className="error-container">Oh wow our land just crashed!</div>
-}
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => <div className="error-container">Oh wow our land just crashed!</div>
 
 export const CatchBoundary: React.FC = () => {
     const caught = useCatch()
