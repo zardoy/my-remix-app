@@ -8,7 +8,7 @@ export const loader = async () => {
     const randomJoke = await prisma.joke.findFirst({
         skip: jokeNumber,
     })
-    if (!randomJoke) throw new Response('There are still no jokes in Database. You can be the first with your one!', { status: 404 })
+    if (!randomJoke) throw new Response('There are still no jokes in Database. Try to add one!', { status: 404 })
     return randomJoke
 }
 
@@ -19,7 +19,7 @@ export const CatchBoundary: React.FC = () => {
 
     if (caught.status === 404) return <div className="error-container">{caught.data}</div>
 
-    throw new Error(`Unhandled response: ${caught}`)
+    throw caught
 }
 
 export default () => {

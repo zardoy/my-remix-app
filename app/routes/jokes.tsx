@@ -49,7 +49,9 @@ export default () => {
                             <ul>
                                 {jokes.map(joke => (
                                     <li key={joke.id}>
-                                        <Link to={joke.id}>{joke.name}</Link>
+                                        <Link to={joke.id} prefetch="intent">
+                                            {joke.name}
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

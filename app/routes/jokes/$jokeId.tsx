@@ -1,5 +1,6 @@
 import { Joke } from '@prisma/client'
 import { ActionFunction, ErrorBoundaryComponent, Form, LoaderFunction, useCatch, useLoaderData } from 'remix'
+import JokeDisplay from '../../components/JokeDisplay'
 import { prisma } from '~/utils/prisma.server'
 import { getUserId, requireUserId } from '~/utils/session.server'
 
@@ -34,22 +35,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default () => {
     const { joke, isOwner } = useLoaderData<LoaderData>()
 
-    return (
-        <div>
-            <h3>
-                Here's your hilarious joke: <b>{joke.name}</b>
-            </h3>
-            <p>{joke.content}</p>
-            {isOwner && (
-                <Form method="post">
-                    <input type="hidden" name="_method" value="delete" />
-                    <button type="button" className="button">
-                        Delete
-                    </button>
-                </Form>
-            )}
-        </div>
-    )
+    return <JokeDisplay isOwner={isOwner} canDelete={isOwner} joke={joke} />
 }
 
 export const ErrorBoundary: ErrorBoundaryComponent = () => <div className="error-container">Something gone wrong with this joke. LUL</div>

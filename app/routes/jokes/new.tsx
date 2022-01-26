@@ -1,5 +1,5 @@
-import { Link, useHref } from 'react-router-dom'
-import { ActionFunction, Form, json, redirect, useActionData, useCatch } from 'remix'
+import { ActionFunction, Form, json, redirect, useActionData, useCatch, useTransition } from 'remix'
+import JokeDisplay from '~/components/JokeDisplay'
 import LoginButton from '~/components/LoginButton'
 import { prisma } from '~/utils/prisma.server'
 import { getUserId, requireUserId } from '~/utils/session.server'
@@ -60,6 +60,17 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default () => {
     const actionData = useActionData<ActionData>()
+    const { submission } = useTransition()
+
+    if (submission) {
+        const fields = Object.fromEntries(submission.formData) as Fields
+        const { name, content } = fields
+        const fieldErrors = {
+            name: validateJokeName(name),
+            content: validateJokeContent(content),
+        }
+        if (!Object.values(fieldErrors).some(Boolean)) return <JokeDisplay canDelete={false} joke={fields} isOwner={true} />
+    }
 
     return (
         <div>
@@ -93,6 +104,9 @@ export default () => {
                     )}
                 </div>
                 <div>
+                    {/* <button type="submit" className="button" disabled={!!transition.submission}>
+                        {transition.submission ? 'Add' : 'Adding...'}
+                    </button> */}
                     <button type="submit" className="button">
                         Add
                     </button>
@@ -112,5 +126,5 @@ export const CatchBoundary: React.FC = () => {
             </div>
         )
 
-    throw new Error(`Unhandled response: ${caught}`)
+    throw caught
 }
