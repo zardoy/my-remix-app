@@ -1,7 +1,8 @@
-import { Link, Outlet, useLoaderData } from 'remix'
+import { Form, Link, Outlet, useLoaderData } from 'remix'
 import jokesUrl from '../styles/jokes.css'
 import { prisma } from '~/utils/prisma.server'
 import { getUser } from '~/utils/session.server'
+import LoginButton from '~/components/LoginButton'
 
 export const links = () => [{ rel: 'stylesheet', href: jokesUrl }]
 
@@ -30,14 +31,14 @@ export default () => {
                     {user ? (
                         <div className="user-info">
                             <span>{user.username}</span>
-                            <form action="/logout" method="post">
+                            <Form action="/logout" method="post">
                                 <button type="submit" className="button">
                                     Logout
                                 </button>
-                            </form>
+                            </Form>
                         </div>
                     ) : (
-                        <Link to="/login">Login</Link>
+                        <LoginButton />
                     )}
                 </div>
                 <main className="jokes-main">

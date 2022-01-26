@@ -1,4 +1,4 @@
-import { ActionFunction, json, Link, useActionData, LoaderFunction, MetaFunction, redirect } from 'remix'
+import { ActionFunction, json, Link, useActionData, LoaderFunction, MetaFunction, redirect, Form, useSearchParams } from 'remix'
 import loginStyles from '../styles/login.css'
 import { createUserSesstion, getUser, login, register } from '~/utils/session.server'
 
@@ -44,9 +44,8 @@ export const action: ActionFunction = async ({ request }) => {
     // zod
     const body = await request.formData()
     const fields = Object.fromEntries(body.entries()) as Fields
-    const redirectTo = new URL(request.url).searchParams.get('redirectTo') || '/jokes'
-    const { username, password, loginType } = fields
-    if ([username, password, loginType].some(str => typeof str !== 'string'))
+    const { redirectTo = '/jokes', username, password, loginType } = fields
+    if ([redirectTo, username, password, loginType].some(str => typeof str !== 'string'))
         return badRequest({
             formError: 'Form not submitted correctly.',
         })
@@ -79,17 +78,29 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const loader: LoaderFunction = async ({ request }) => {
     if (await getUser(request)) return redirect('/jokes')
+
+    // unused
+    const referer = request.headers.get('referer')
+    try {
+        const urlReferer = referer && new URL(referer)
+        const requestUrl = new URL(request.url)
+        if (urlReferer && urlReferer.host === requestUrl.host && requestUrl.searchParams.get('redirectTo') === null && !/login\/?$/.test(urlReferer.pathname))
+            return redirect(`/login?redirectTo=${referer}`)
+    } catch {}
+
     return []
 }
 
 export default () => {
     const actionData = useActionData<ActionData>()
+    const [searchParams] = useSearchParams()
 
     return (
         <div className="container">
             <div className="content" data-light="">
                 <h1>Login</h1>
-                <form method="post" aria-describedby={actionData?.formError ? 'form-error-message' : undefined}>
+                <Form method="post" aria-describedby={actionData?.formError ? 'form-error-message' : undefined}>
+                    <input type="hidden" name="redirectTo" value={searchParams.get('redirectTo') ?? undefined} />
                     <fieldset>
                         <legend className="sr-only">Login or Register?</legend>
                         <label>
@@ -146,7 +157,7 @@ export default () => {
                     <button type="submit" className="button">
                         Submit
                     </button>
-                </form>
+                </Form>
                 <div className="links">
                     <ul>
                         <li>

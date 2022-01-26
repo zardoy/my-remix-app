@@ -1,5 +1,5 @@
 import { Joke } from '@prisma/client'
-import { ActionFunction, ErrorBoundaryComponent, LoaderFunction, useCatch, useLoaderData } from 'remix'
+import { ActionFunction, ErrorBoundaryComponent, Form, LoaderFunction, useCatch, useLoaderData } from 'remix'
 import { prisma } from '~/utils/prisma.server'
 import { getUserId, requireUserId } from '~/utils/session.server'
 
@@ -41,12 +41,12 @@ export default () => {
             </h3>
             <p>{joke.content}</p>
             {isOwner && (
-                <form method="post">
+                <Form method="post">
                     <input type="hidden" name="_method" value="delete" />
                     <button type="button" className="button">
                         Delete
                     </button>
-                </form>
+                </Form>
             )}
         </div>
     )

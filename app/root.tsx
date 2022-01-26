@@ -36,20 +36,20 @@ export const meta: MetaFunction = () => {
 }
 
 const Document: React.FC<{ title? }> = ({ children, title = "Remix: it's really cool!" }) => (
-        <html lang="en">
-            <head>
-                <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width,initial-scale=1" />
-                <title>{title}</title>
-                <Meta />
-                <Links />
-            </head>
-            <body>
-                {children}
-                {process.env.NODE_ENV === 'development' && <LiveReload />}
-            </body>
-        </html>
-    )
+    <html lang="en">
+        <head>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width,initial-scale=1" />
+            <title>{title}</title>
+            <Meta />
+            <Links />
+        </head>
+        <body>
+            {children}
+            {process.env.NODE_ENV === 'development' && <LiveReload />}
+        </body>
+    </html>
+)
 
 export default function App() {
     return (
@@ -73,15 +73,11 @@ export const CatchBoundary = () => {
     )
 }
 
-export const ErrorBoundary = ({ error }: { error: Error }) => {
-    console.log(error)
-
-    return (
-        <Document title="App Crashed">
-            <div className="error-container">
-                <h1>Application Error</h1>
-                <pre>{error.message}</pre>
-            </div>
-        </Document>
-    )
-}
+export const ErrorBoundary = ({ error }: { error: Error }) => (
+    <Document title="App Crashed">
+        <div className="error-container">
+            <h1>Application Error</h1>
+            <pre>{error.message}</pre>
+        </div>
+    </Document>
+)

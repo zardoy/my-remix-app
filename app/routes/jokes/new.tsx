@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
-import { ActionFunction, json, redirect, useActionData, useCatch } from 'remix'
+import { Link, useHref } from 'react-router-dom'
+import { ActionFunction, Form, json, redirect, useActionData, useCatch } from 'remix'
+import LoginButton from '~/components/LoginButton'
 import { prisma } from '~/utils/prisma.server'
-import { requireUserId } from '~/utils/session.server'
+import { getUserId, requireUserId } from '~/utils/session.server'
 
 export const validateJokeName = (name: string) => {
     if (name.length < 2) return "That joke's name is too short"
@@ -27,14 +28,14 @@ type ActionData = {
 
 const badRequest = (data: ActionData) => json(data, { status: 400 })
 
-// export const loader = async ({ request }) => {
-//     // can be annoying
-//     // await requireUserId(request)
+export const loader = async ({ request }) => {
+    // can be annoying
+    // await requireUserId(request)
 
-//     // const userId = await getUserId(request)
-//     // if (userId === undefined) throw new Response('You need to login before adding a joke', { status: 401 })
-//     return {}
-// }
+    const userId = await getUserId(request)
+    if (userId === undefined) throw new Response('You need to login before adding a joke', { status: 401 })
+    return {}
+}
 
 export const action: ActionFunction = async ({ request }) => {
     // zod
@@ -63,7 +64,7 @@ export default () => {
     return (
         <div>
             <p>Add your own hilarious joke</p>
-            <form method="post">
+            <Form method="post">
                 <div>
                     <label>
                         Name:{' '}
@@ -96,7 +97,7 @@ export default () => {
                         Add
                     </button>
                 </div>
-            </form>
+            </Form>
         </div>
     )
 }
@@ -107,7 +108,7 @@ export const CatchBoundary: React.FC = () => {
     if (caught.status === 401)
         return (
             <div className="error-container">
-                <p>{caught.data}</p> <Link to="/login">Login</Link>
+                <p>{caught.data}</p> <LoginButton />
             </div>
         )
 
