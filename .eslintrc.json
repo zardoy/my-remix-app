@@ -1,0 +1,7 @@
+{
+    "extends": "zardoy",
+    "rules": {
+        "@typescript-eslint/no-throw-literal": "off",
+        "unicorn/filename-case": "off"
+    }
+}

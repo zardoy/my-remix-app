@@ -1,0 +1,11 @@
+{
+    "extends": "@zardoy/tsconfig",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["./app/*"]
+        }
+    },
+    "include": ["app", "**/*.ts", "**/*.tsx"]
+}
