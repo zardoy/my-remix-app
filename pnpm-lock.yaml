@@ -5,6 +5,7 @@ specifiers:
   '@remix-run/dev': ^1.1.3
   '@remix-run/react': ^1.1.3
   '@remix-run/serve': ^1.1.3
+  '@remix-run/vercel': ^1.1.3
   '@types/bcryptjs': ^2.4.2
   '@types/node': ^17.0.12
   '@types/react': ^17.0.24
@@ -16,7 +17,6 @@ specifiers:
   prisma: ^3.8.1
   react: ^17.0.2
   react-dom: ^17.0.2
-  react-router-dom: ^6.2.1
   remix: ^1.1.3
   tsm: ^2.2.1
   typescript: ^4.1.2
@@ -25,11 +25,11 @@ dependencies:
   '@prisma/client': 3.8.1_prisma@3.8.1
   '@remix-run/react': 1.1.3_react-dom@17.0.2+react@17.0.2
   '@remix-run/serve': 1.1.3_react-dom@17.0.2+react@17.0.2
+  '@remix-run/vercel': 1.1.3_react-dom@17.0.2+react@17.0.2
   bcryptjs: 2.4.3
   prisma: 3.8.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
-  react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
   remix: 1.1.3
   tsm: 2.2.1
 
@@ -455,6 +455,19 @@ packages:
       react-router-dom: 6.2.1_react-dom@17.0.2+react@17.0.2
       set-cookie-parser: 2.4.8
       source-map: 0.7.3
+    dev: false
+
+  /@remix-run/vercel/1.1.3_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-nOtO0FjneLwINrLqow3fwLibb97gpwkK0QgxPtabm3qzJ/JRsEwt/7IDNBicA8u8GnNyr9476yedYlT90nT5/Q==}
+    peerDependencies:
+      '@vercel/node': ^1.8.3
+    dependencies:
+      '@remix-run/node': 1.1.3_react-dom@17.0.2+react@17.0.2
+      '@remix-run/server-runtime': 1.1.3_react-dom@17.0.2+react@17.0.2
+    transitivePeerDependencies:
+      - encoding
+      - react
+      - react-dom
     dev: false
 
   /@rollup/pluginutils/4.1.2:
