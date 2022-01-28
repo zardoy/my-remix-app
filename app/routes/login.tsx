@@ -35,7 +35,6 @@ type ActionData = {
         username: string | undefined
         password: string | undefined
     }
-    fields?: Fields
 }
 
 const badRequest = (data: ActionData) => json(data, { status: 400 })
@@ -43,8 +42,7 @@ const badRequest = (data: ActionData) => json(data, { status: 400 })
 export const action: ActionFunction = async ({ request }) => {
     // zod
     const body = await request.formData()
-    const fields = Object.fromEntries(body.entries()) as Fields
-    const { redirectTo = '/jokes', username, password, loginType } = fields
+    const { redirectTo = '/jokes', username, password, loginType } = Object.fromEntries(body.entries()) as Fields
     if ([redirectTo, username, password, loginType].some(str => typeof str !== 'string'))
         return badRequest({
             formError: 'Form not submitted correctly.',
@@ -53,14 +51,13 @@ export const action: ActionFunction = async ({ request }) => {
         username: validateUsername(username),
         password: validatePassword(password),
     }
-    if (Object.values(fieldErrors).some(Boolean)) return badRequest({ fieldErrors, fields })
+    if (Object.values(fieldErrors).some(Boolean)) return badRequest({ fieldErrors })
 
     switch (loginType) {
         case 'login': {
             const user = await login(username, password)
             if (!user)
                 return badRequest({
-                    fields,
                     formError: 'Username or Password incorrect',
                 })
             return createUserSesstion(user.id, redirectTo)
@@ -104,16 +101,10 @@ export default () => {
                     <fieldset>
                         <legend className="sr-only">Login or Register?</legend>
                         <label>
-                            <input
-                                type="radio"
-                                name="loginType"
-                                value="login"
-                                defaultChecked={!actionData?.fields?.loginType || actionData?.fields?.loginType === 'login'}
-                            />{' '}
-                            Login
+                            <input type="radio" name="loginType" value="login" defaultChecked /> Login
                         </label>
                         <label>
-                            <input type="radio" name="loginType" value="register" defaultChecked={actionData?.fields?.loginType === 'register'} /> Register
+                            <input type="radio" name="loginType" value="register" /> Register
                         </label>
                     </fieldset>
                     <label>
