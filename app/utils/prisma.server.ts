@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
+/* eslint-disable */
 import { PrismaClient } from '@prisma/client'
 
 let prisma: PrismaClient
@@ -14,6 +16,7 @@ if (process.env.NODE_ENV === 'production') {
         global.__prisma = new PrismaClient()
         global.__prisma.$connect()
     }
+
     prisma = global.__prisma
 }
 

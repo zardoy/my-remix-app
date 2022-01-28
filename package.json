@@ -4,11 +4,13 @@
   "description": "",
   "license": "",
   "scripts": {
-    "build": "remix build",
+    "build": "remix build && node postbuild.mjs",
     "dev": "remix dev",
     "postinstall": "remix setup node",
     "start": "remix-serve build",
-    "lint": "eslint src/**"
+    "lint": "eslint src/**",
+    "seed": "prisma db seed",
+    "database": "docker run --name postgres --rm --publish 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:10.12"
   },
   "prisma": {
     "seed": "tsm prisma/seed.ts"
