@@ -1,0 +1,19 @@
+# For Development Only
+version: '3.7'
+
+services:
+  app:
+    image: node:16
+    command: sh -c "npm i -g pnpm && pnpm i --unsafe-perm && pnpm prisma db push && pnpm prisma db seed && pnpm dev"
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - SESSION_SECRET=8w92
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/remix
+  db:
+    image: postgres:10.12
+    environment:
+      - POSTGRES_PASSWORD=postgres
