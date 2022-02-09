@@ -5,7 +5,7 @@
   "license": "",
   "scripts": {
     "dev": "remix dev",
-    "build": "remix build",
+    "build": "remix build && node postbuild.mjs",
     "postinstall": "remix setup node && prisma generate",
     "start": "remix-serve build",
     "lint": "eslint src/**",
