@@ -1,3 +1,4 @@
+/// <reference types="styled-components/cssprop" />
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from 'remix'
 import type { MetaFunction } from 'remix'
 import globalStyles from './styles/global.css'
@@ -43,6 +44,7 @@ const Document: React.FC<{ title? }> = ({ children, title = "Remix: it's really 
             <title>{title}</title>
             <Meta />
             <Links />
+            {typeof document === 'undefined' && '__STYLES__'}
         </head>
         <body>
             {children}

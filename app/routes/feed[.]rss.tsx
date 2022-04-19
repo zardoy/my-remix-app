@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer'
 import type { LoaderFunction } from 'remix'
 import { prisma } from '~/utils/prisma.server'
 
