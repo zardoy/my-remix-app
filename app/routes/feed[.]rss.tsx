@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer'
-import type { LoaderFunction } from 'remix'
+import type { LoaderFunction } from '@remix-run/node'
 import { prisma } from '~/utils/prisma.server'
 
 function escapeCdata(s: string) {

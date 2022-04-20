@@ -1,5 +1,6 @@
 import { Joke } from '@prisma/client'
-import { ErrorBoundaryComponent, Link, useCatch, useLoaderData } from 'remix'
+import { ErrorBoundaryComponent } from '@remix-run/node'
+import { Link, useCatch, useLoaderData } from '@remix-run/react'
 import { prisma } from '~/utils/prisma.server'
 
 export const loader = async () => {

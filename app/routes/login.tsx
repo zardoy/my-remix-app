@@ -1,4 +1,6 @@
-import { ActionFunction, json, Link, useActionData, LoaderFunction, MetaFunction, redirect, Form, useSearchParams } from 'remix'
+import { ActionFunction, json, LoaderFunction, MetaFunction, redirect } from '@remix-run/node'
+import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
+import { useCallback } from 'react'
 import loginStyles from '../styles/login.css'
 import { createUserSesstion, getUser, login, register } from '~/utils/session.server'
 
@@ -16,10 +18,12 @@ export const meta: MetaFunction = () => ({
 
 function validateUsername(username: unknown) {
     if (typeof username !== 'string' || username.length < 3) return `Usernames must be at least 3 characters long`
+    return undefined
 }
 
 function validatePassword(password: unknown) {
     if (typeof password !== 'string' || password.length < 6) return `Passwords must be at least 6 characters long`
+    return undefined
 }
 
 type Fields = {
@@ -69,7 +73,7 @@ export const action: ActionFunction = async ({ request }) => {
         }
 
         default:
-            break
+            return undefined
     }
 }
 

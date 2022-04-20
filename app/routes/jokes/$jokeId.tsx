@@ -1,5 +1,6 @@
 import { Joke } from '@prisma/client'
-import { ActionFunction, ErrorBoundaryComponent, Form, LoaderFunction, useCatch, useLoaderData } from 'remix'
+import { ActionFunction, ErrorBoundaryComponent, LoaderFunction } from '@remix-run/node'
+import { Form, useCatch, useLoaderData } from '@remix-run/react'
 import JokeDisplay from '../../components/JokeDisplay'
 import { prisma } from '~/utils/prisma.server'
 import { getUserId, requireUserId } from '~/utils/session.server'

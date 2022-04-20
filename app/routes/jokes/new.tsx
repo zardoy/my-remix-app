@@ -1,4 +1,5 @@
-import { ActionFunction, Form, json, redirect, useActionData, useCatch, useTransition } from 'remix'
+import { ActionFunction, json, redirect } from '@remix-run/node'
+import { Form, useActionData, useCatch, useTransition } from '@remix-run/react'
 import JokeDisplay from '~/components/JokeDisplay'
 import LoginButton from '~/components/LoginButton'
 import { prisma } from '~/utils/prisma.server'

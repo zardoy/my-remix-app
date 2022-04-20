@@ -1,4 +1,4 @@
-import { Form, Link, Outlet, useLoaderData } from 'remix'
+import { Form, Link, Outlet, useLoaderData } from '@remix-run/react'
 import jokesUrl from '../styles/jokes.css'
 import { prisma } from '~/utils/prisma.server'
 import { getUser } from '~/utils/session.server'

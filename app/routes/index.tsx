@@ -1,4 +1,4 @@
-import { Link } from 'remix'
+import { Link } from '@remix-run/react'
 import styled, { css } from 'styled-components'
 import indexStyles from '../styles/index.css'
 

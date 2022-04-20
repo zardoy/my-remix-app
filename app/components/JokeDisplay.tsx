@@ -1,5 +1,5 @@
 import { Joke } from '@prisma/client'
-import { Form } from 'remix'
+import { Form } from '@remix-run/react'
 
 type ComponentProps = {
     joke: Pick<Joke, 'name' | 'content'>
