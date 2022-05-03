@@ -33,7 +33,6 @@ const jokes = [
     },
 ]
 
-//@ts-ignore
 const kody = await prisma.user.create({
     data: {
         username: 'kody',
@@ -41,7 +40,6 @@ const kody = await prisma.user.create({
     },
 })
 
-//@ts-ignore
 await prisma.$transaction(
     jokes.map(({ name, content }) =>
         prisma.joke.create({
